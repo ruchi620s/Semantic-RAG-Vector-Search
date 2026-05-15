@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+.pytest_cache/
+
+# Virtual environment
+.venv/
+venv/
+
+# Build and artifacts
+build/
+dist/
+*.egg-info/
+artifacts/
+.cache/
+benchmark_results.json
+
+# IDE
+.vscode/
+.idea/

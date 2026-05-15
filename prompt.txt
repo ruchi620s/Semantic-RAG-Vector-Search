@@ -1,0 +1,85 @@
+Copilot, fix the `FileNotFoundError` issue in my Python Semantic RAG project.
+
+Error:
+
+```python
+FileNotFoundError: Data file not found: app\data\technical_docs.txt
+```
+
+Project structure:
+
+```text
+semantic-rag-benchmark/
+│
+├── app/
+│   ├── main.py
+│   └── data/
+│       └── technical_docs.txt
+```
+
+Current problem:
+
+* The file actually exists.
+* The script is using a relative path.
+* Python cannot find the file because the terminal working directory is different from the script directory.
+
+Tasks:
+
+1. Replace all relative file paths with absolute paths using `pathlib.Path`.
+2. Make the project runnable from any directory in VS Code terminal.
+3. Add debug logging for:
+
+   * Current working directory
+   * Script directory
+   * Final resolved data path
+   * Whether the file exists
+4. Refactor the code professionally.
+
+Expected implementation:
+
+```python
+from pathlib import Path
+import os
+
+BASE_DIR = Path(__file__).resolve().parent
+DATA_PATH = BASE_DIR / "data" / "technical_docs.txt"
+
+print(f"Current Working Directory: {os.getcwd()}")
+print(f"Script Directory: {BASE_DIR}")
+print(f"Resolved Data Path: {DATA_PATH}")
+print(f"File Exists: {DATA_PATH.exists()}")
+
+if not DATA_PATH.exists():
+    raise FileNotFoundError(f"Data file not found: {DATA_PATH}")
+```
+
+Also:
+
+* Verify whether OneDrive folder spaces are causing path issues.
+* Check if the `.venv` interpreter is correct.
+* Optimize slow startup during:
+
+```python
+from sentence_transformers import SentenceTransformer
+```
+
+The import hangs for a long time before KeyboardInterrupt.
+
+Check:
+
+* Python 3.12 compatibility
+* Corrupted package metadata
+* Broken transformers installation
+
+If required, suggest stable versions:
+
+```powershell
+pip uninstall sentence-transformers transformers -y
+pip install sentence-transformers==2.7.0 transformers==4.41.2
+```
+
+Finally:
+
+* Explain the root cause in comments.
+* Ensure the fix works permanently.
+* Update the full `main.py` accordingly.

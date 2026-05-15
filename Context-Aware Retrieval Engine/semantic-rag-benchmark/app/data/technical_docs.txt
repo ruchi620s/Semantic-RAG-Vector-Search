@@ -1,0 +1,15 @@
+Distributed systems are built to handle traffic across many independent services. A common reliability pattern is to keep services stateless and place shared state in durable stores. During sudden traffic spikes, queues absorb bursts while worker pools scale out. Load balancers spread incoming requests across healthy instances and can route traffic away from failing zones.
+
+Autoscaling in Kubernetes typically combines Horizontal Pod Autoscaler metrics with cluster node autoscaling. Pods scale horizontally when CPU utilization, custom metrics, or queue depth exceed configured thresholds. Effective autoscaling requires sensible resource requests and limits; otherwise, pods can be throttled or starved, increasing latency under peak load.
+
+Caching improves API response speed by avoiding repeated expensive computations and database round trips. Application-level caches, distributed caches such as Redis, and CDN edge caches reduce tail latency for frequently accessed content. Cache invalidation policies should balance freshness and performance to prevent stale data while maintaining high hit ratios.
+
+API gateways centralize cross-cutting concerns including authentication, rate limiting, routing, request transformation, and observability. By terminating TLS and handling policy checks at the edge, gateways reduce duplicate logic in microservices. They also support canary routing and traffic shaping to safely roll out new service versions.
+
+Load balancing strategies include round robin, least connections, and latency-aware routing. At scale, health checks and outlier detection are critical to avoid routing requests to degraded instances. Multi-zone balancing improves resilience by keeping traffic local when possible while preserving failover paths across zones.
+
+Microservices isolate business capabilities into independently deployable units. Resilience patterns such as circuit breakers, retries with exponential backoff, and bulkheads prevent cascading failures. Service meshes provide mTLS, retries, and telemetry, but teams must tune timeout budgets to avoid retry storms and amplified load.
+
+Fault tolerance in distributed services depends on graceful degradation and failure isolation. If one dependency fails, the calling service should return partial results or fallback responses instead of timing out all requests. Idempotency keys, dead-letter queues, and compensating transactions improve recovery behavior in asynchronous workflows.
+
+Observability combines logs, metrics, and traces to diagnose production incidents quickly. High-cardinality metrics can reveal hot partitions, while distributed tracing exposes latency bottlenecks across API gateway, application, and database layers. SLO-based alerting helps teams prioritize incidents that meaningfully affect users.
